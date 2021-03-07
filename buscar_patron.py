@@ -7,7 +7,7 @@ if len(sys.argv)==3:
     patron_entrada=sys.argv[2]
 #Si no cumple, sale del script.
 else:
-    print("\nSintaxis del programa:\nbla.py [ruta_fichero] [patron]\n")
+    print("\nSintaxis del programa:\nbuscar_patron.py [ruta_fichero] [patron]\n")
     sys.exit()
 
 #Cambio las n y N por . para la búsqueda regexp.
