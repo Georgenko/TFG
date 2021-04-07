@@ -2,6 +2,7 @@
 
 
 from bytes_leidos import BytesLeidos
+import sys
 
 
 class LectorFASTA:
@@ -22,6 +23,23 @@ class LectorFASTA:
         # f=file
         with open(filename) as f:
             
+            # hace falta lanzar excepción?
+            # Nos posicionamos al final del fichero
+            #     para contar los bytes que contiene.
+            f.seek(0,2)
+            len_f=f.tell()
+            # print("Bytes en el fichero contando newline/line feed:",len_f)
+            # print(sys.maxsize)
+            if len_f>sys.maxsize:
+                f.close()
+                print("El fichero",filename,"es demasiado grande.")
+                print("No se puede representar con bytearray.")
+                sys.exit()
+            # Volvemos al principio del fichero
+            #     para poder continuar con el resto del programa.
+            f.seek(0)
+
+
             # bytearray vacío por rellenar.
             contenido=bytearray()
             # print(contenido)
@@ -31,14 +49,20 @@ class LectorFASTA:
 
             # Se procesa cada línea del fichero por separado: l1.
             for l1 in f:
-                # print(l1)
                 # print(type(l1))
+                # print("l1:",l1)                
+                # if not l1:
+                    # print("l1 is false")
+
                 
                 # l2 es l1 con los caracteres de newline/line feed
                 #     al final de cada línea,
                 #     y con todos los caracteres pasados a mayúsculas.
                 l2=l1.rstrip("\n").upper()
-                # print(l2)
+                # print("l2:",l2)
+                if not l2:
+                    # print("Línea vacía. Continuamos con la siguiente.")
+                    continue
                 
                 len_line=len(l2)
                 # print(len_line)
@@ -91,13 +115,13 @@ class LectorFASTA:
         # print("Longitud de patron:",len(patron))
         # print("bytes_validos:",self.bytes_validos)
         
-        posiciones=[]
+        posiciones=list()
 
         p=patron.upper().encode()
         
         try:
             
-            print("Número de comparaciones que se realizarán:",self.bytes_validos-len(patron)+1)
+            # print("Número de comparaciones que se realizarán:",self.bytes_validos-len(patron)+1)
             for i in range(self.bytes_validos-len(patron)+1):
                 
                 if self.comparar(p,i):

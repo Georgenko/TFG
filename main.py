@@ -23,12 +23,10 @@ else:
     try:
         
         lf=LectorFASTA(sys.argv[1])
-    # esto invoca el método __str__ de la clase LectorFasta:
-    # print(lf)
-    # esto te imprime el atributo filename de la instancia lf:
-    # print(lf.filename)
-    
-        print(lf.contenido)
+        
+        # Comprobar que los bytes que guardamos son los que nos interesan:
+        # print(lf.contenido)
+        # print(lf.bytes_validos)
         
         #p=patrón
         p=sys.argv[2]
