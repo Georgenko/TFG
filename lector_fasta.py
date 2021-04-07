@@ -6,7 +6,7 @@ from bytes_leidos import BytesLeidos
 
 class LectorFASTA:
     
-    
+    # Constructor.
     def __init__(self,filename):
         
         bl=self.leer_fichero(filename)
@@ -14,40 +14,52 @@ class LectorFASTA:
         self.contenido=bl.contenido
         self.bytes_validos=bl.bytes_validos
         
-        
+
+    # Toma como parámetro el fichero del cli.
+    # Devuelve una instancia del tipo BytesLeidos.
     def leer_fichero(self,filename):
     
         # f=file
         with open(filename) as f:
             
+            # bytearray vacío por rellenar.
             contenido=bytearray()
             # print(contenido)
             
+            # Contador de bytes metidos en el bytearray.
             bytes_read=0
-     
-            # l=line
+
+            # Se procesa cada línea del fichero por separado: l1.
             for l1 in f:
                 # print(l1)
                 # print(type(l1))
                 
+                # l2 es l1 con los caracteres de newline/line feed
+                #     al final de cada línea,
+                #     y con todos los caracteres pasados a mayúsculas.
                 l2=l1.rstrip("\n").upper()
                 # print(l2)
                 
                 len_line=len(l2)
-                print(len_line)
+                # print(len_line)
                 
+                # Se pasan los caracteres a enteros.
                 l3=l2.encode()
                 # print("l3 =",l3)
                 # print("l2[0] =",l2[0],"->","l3[0] =",l3[0])
                 # print("l2[1] =",l2[1],"->","l3[1] =",l3[1])
                 
+                # Se va rellenando el bytearray con
+                #     todos los bytes del fichero
+                #     excepto los de newline/line feed.
                 # b=byte
                 for b in l3:
                     # print(b)
                     # print(type(b))
                     
                     contenido.append(b)
-                    
+                
+                # Los bytes leído se van actualizando por cada línea.    
                 bytes_read+=len_line
     
         # print(contenido)
