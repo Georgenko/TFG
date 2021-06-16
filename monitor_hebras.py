@@ -8,7 +8,7 @@ logger=logging.getLogger()
 
 
 
-class Monitor:
+class MonitorHebras:
     def __init__(self):
         self.busquedas_pendientes=queue.Queue()
         self.resultados_pendientes=queue.Queue()

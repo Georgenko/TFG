@@ -17,8 +17,8 @@ def leer_FASTA(filename):
         len_f=f.tell()
         if len_f>sys.maxsize:
             f.close()
-            logger.info(f"El fichero {filename} es demasiado grande.")
-            logger.info("No se puede representar con bytearray.")
+            logger.error(f"El fichero {filename} es demasiado grande.")
+            logger.error("No se puede representar con bytearray.")
             sys.exit()
         f.seek(0)
 

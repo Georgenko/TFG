@@ -29,7 +29,7 @@ class Buscador:
                 if self.comparar(p,i):
                     posiciones.append(i)
         except:
-            logger.info("Algo falla en buscar.")
+            logger.error("Algo falla en buscar.")
         return posiciones
     
     

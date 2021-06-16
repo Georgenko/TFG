@@ -4,7 +4,7 @@ from hebra import Hebra
 
 
 
-class Pool:
+class PoolHebras:
     def __init__(self,num_hebras,monitor):
         self.num_hebras=num_hebras
         self.monitor=monitor
