@@ -20,7 +20,9 @@ class Hebra(threading.Thread):
         
         
     def run(self):
+        # self.monitor.counter!=0
         while True:
+            
             busqueda=self.monitor.obtener_busqueda()
             logger.info(f"La hebra {self.id_hebra} ha obtenido la búsqueda {busqueda.indice}.")
             

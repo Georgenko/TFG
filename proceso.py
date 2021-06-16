@@ -20,7 +20,7 @@ class Proceso(multiprocessing.Process):
         
         
     def run(self):
-        while self.monitor.counter!=0:
+        while True:
             busqueda=self.monitor.obtener_busqueda()
             logger.info(f"El proceso {self.id_proceso} ha obtenido la búsqueda {busqueda.indice}.")
 

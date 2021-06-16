@@ -12,14 +12,12 @@ class MonitorProcesos:
     def __init__(self):
         self.busquedas_pendientes=multiprocessing.Queue()
         self.resultados_pendientes=multiprocessing.Queue()
-        self.counter=multiprocessing.Queue()
         
         
         
     #inicializar búsqueda
     def obtener_busqueda(self):
         busqueda=self.busquedas_pendientes.get()
-        self.counter.get()
                 
         logger.info(f"La búsqueda {busqueda.indice} se ha solicitado.")
         return busqueda

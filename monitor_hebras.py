@@ -12,6 +12,7 @@ class MonitorHebras:
     def __init__(self):
         self.busquedas_pendientes=queue.Queue()
         self.resultados_pendientes=queue.Queue()
+        # self.counter=queue.Queue()
     
     
     
@@ -19,6 +20,8 @@ class MonitorHebras:
     def obtener_busqueda(self):      
         busqueda=self.busquedas_pendientes.get()
         self.busquedas_pendientes.task_done()
+        # self.counter.get()
+        # self.counter.task_done()
         
         logger.info(f"La búsqueda {busqueda.indice} se ha solicitado.")
         return busqueda

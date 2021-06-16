@@ -30,23 +30,25 @@ def main():
         
         if trabajadores=="procesos":
             monitor=MonitorProcesos()
-            [monitor.counter.put("dummy") for _ in range(num_fragmentos)]
             pool=PoolProcesos(num_trabajadores,monitor)
-            mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
         
         elif trabajadores=="hebras":
             monitor=MonitorHebras()
+            #[monitor.counter.put("dummy") for _ in range(num_fragmentos)]
             pool=PoolHebras(num_trabajadores,monitor)
-            mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
-        
+            
+        mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
         patron=sys.argv[2]
         
         t1=time.time()
         posiciones=mr.buscar(patron)
         t2=time.time()
         
-        [proceso.terminate() for proceso in pool.procesos]
-        [proceso.join() for proceso in pool.procesos]
+        if trabajadores=="procesos":
+            [proceso.terminate() for proceso in pool.procesos]
+            [proceso.join() for proceso in pool.procesos]
+            
+        
             
         #imprimir resultados
         for i in range(len(posiciones)):
