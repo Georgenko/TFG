@@ -20,11 +20,9 @@ class Hebra(threading.Thread):
         
         
     def run(self):
-        # self.monitor.counter!=0
-        while True:
-            
+        while not self.monitor.counter.empty():
             busqueda=self.monitor.obtener_busqueda()
-            logger.info(f"La hebra {self.id_hebra} ha obtenido la búsqueda {busqueda.indice}.")
+            logger.info(f"Hebra {self.id_hebra} ha obtenido búsqueda {busqueda.indice}.")
             
             buscador=Buscador(busqueda.contenido,len(busqueda.contenido))
             lista=buscador.buscar(busqueda.patron)
@@ -32,5 +30,5 @@ class Hebra(threading.Thread):
             resultado=Resultado(lista,busqueda.indice)
             self.monitor.notificar_busqueda(resultado,self.id_hebra)
             
-        
+            
         

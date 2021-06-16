@@ -12,25 +12,25 @@ class MonitorHebras:
     def __init__(self):
         self.busquedas_pendientes=queue.Queue()
         self.resultados_pendientes=queue.Queue()
-        # self.counter=queue.Queue()
+        self.counter=queue.Queue()
     
     
     
-        #inicializar búsqueda
+    #inicializar búsqueda
     def obtener_busqueda(self):      
         busqueda=self.busquedas_pendientes.get()
         self.busquedas_pendientes.task_done()
-        # self.counter.get()
-        # self.counter.task_done()
+        self.counter.get()
+        self.counter.task_done()
         
-        logger.info(f"La búsqueda {busqueda.indice} se ha solicitado.")
+        logger.info(f"Búsqueda {busqueda.indice} solicitada.")
         return busqueda
     
     
  
     #crear búsqueda
     def activar_busqueda(self,busqueda):
-        logger.info(f"Se ha creado la búsqueda {busqueda.indice}.")
+        logger.info(f"Creación de búsqueda {busqueda.indice}.")
         
         self.busquedas_pendientes.put(busqueda)
         
@@ -40,7 +40,7 @@ class MonitorHebras:
         resultado_quitado=self.resultados_pendientes.get()
         self.resultados_pendientes.task_done()
         
-        logger.info(f"Se ha obtenido el resultado {resultado_quitado.indice}.")
+        logger.info(f"Resultado de búsqueda {resultado_quitado.indice} obtenido.")
         return resultado_quitado
         
         
@@ -48,6 +48,6 @@ class MonitorHebras:
     def notificar_busqueda(self,resultado,id_hebra):
         self.resultados_pendientes.put(resultado)
 
-        logger.info(f"La hebra {id_hebra} ha completado la búsqueda {resultado.indice}.")
+        logger.info(f"Finalización de búsqueda {resultado.indice} por hebra {id_hebra}.")
     
     

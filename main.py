@@ -24,18 +24,19 @@ def main():
         sys.exit()
     else:
         # elegir entre "hebras" o "procesos":
-        trabajadores="procesos"
+        trabajadores="hebras"
         num_trabajadores=4
         num_fragmentos=10
         
         if trabajadores=="procesos":
             monitor=MonitorProcesos()
-            pool=PoolProcesos(num_trabajadores,monitor)
+            [monitor.counter.put("dummy") for _ in range(num_fragmentos)]
+            PoolProcesos(num_trabajadores,monitor)
         
         elif trabajadores=="hebras":
             monitor=MonitorHebras()
-            #[monitor.counter.put("dummy") for _ in range(num_fragmentos)]
-            pool=PoolHebras(num_trabajadores,monitor)
+            [monitor.counter.put("dummy") for _ in range(num_fragmentos)]
+            PoolHebras(num_trabajadores,monitor)
             
         mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
         patron=sys.argv[2]
@@ -43,12 +44,6 @@ def main():
         t1=time.time()
         posiciones=mr.buscar(patron)
         t2=time.time()
-        
-        if trabajadores=="procesos":
-            [proceso.terminate() for proceso in pool.procesos]
-            [proceso.join() for proceso in pool.procesos]
-            
-        
             
         #imprimir resultados
         for i in range(len(posiciones)):

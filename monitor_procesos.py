@@ -12,21 +12,23 @@ class MonitorProcesos:
     def __init__(self):
         self.busquedas_pendientes=multiprocessing.Queue()
         self.resultados_pendientes=multiprocessing.Queue()
+        self.counter=multiprocessing.Queue()
         
         
         
     #inicializar búsqueda
     def obtener_busqueda(self):
         busqueda=self.busquedas_pendientes.get()
-                
-        logger.info(f"La búsqueda {busqueda.indice} se ha solicitado.")
+        self.counter.get()
+        
+        logger.info(f"Búsqueda {busqueda.indice} solicitada.")
         return busqueda
     
     
  
     #crear búsqueda
     def activar_busqueda(self,busqueda):
-        logger.info(f"Se ha creado la búsqueda {busqueda.indice}.")
+        logger.info(f"Creación de búsqueda {busqueda.indice}.")
         
         self.busquedas_pendientes.put(busqueda)
         
@@ -35,14 +37,14 @@ class MonitorProcesos:
     def obtener_resultado(self):
         resultado_quitado=self.resultados_pendientes.get()
         
-        logger.info(f"Se ha obtenido el resultado {resultado_quitado.indice}.")
+        logger.info(f"Resultado de búsqueda {resultado_quitado.indice} obtenido.")
         return resultado_quitado
         
         
         
-    def notificar_busqueda(self,resultado,id_hebra):
+    def notificar_busqueda(self,resultado,id_proceso):
         self.resultados_pendientes.put(resultado)
 
-        logger.info(f"La hebra {id_hebra} ha completado la búsqueda {resultado.indice}.")
+        logger.info(f"Finalización de búsqueda {resultado.indice} por proceso {id_proceso}.")
     
     
