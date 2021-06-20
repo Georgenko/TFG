@@ -10,4 +10,4 @@ class PoolHebras:
         self.monitor=monitor
         
         hebras=[Hebra(i,monitor) for i in range(num_hebras)]
-        [t.start() for t in hebras]
+        [h.start() for h in hebras]

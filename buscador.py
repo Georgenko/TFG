@@ -34,3 +34,11 @@ class Buscador:
     
     
     
+    def get_secuencia(self,posicion,tamano):
+        s=""
+        for i in range(tamano):
+            s+=chr(self.contenido[posicion+i])
+        return s
+    
+    
+    

@@ -2,6 +2,7 @@
 
 import sys
 import time
+from leer_FASTA import leer_FASTA
 from monitor_hebras import MonitorHebras
 from monitor_procesos import MonitorProcesos
 from pool_hebras import PoolHebras
@@ -23,33 +24,54 @@ def main():
         logger.error("No se ha proporcionado el patrón.")
         sys.exit()
     else:
-        # elegir entre "hebras" o "procesos":
-        trabajadores="hebras"
-        num_trabajadores=4
-        num_fragmentos=10
+        # elegir entre "secuencial" o "concurrente"
+        modo="concurrente"
         
-        if trabajadores=="procesos":
-            monitor=MonitorProcesos()
-            [monitor.counter.put("dummy") for _ in range(num_fragmentos)]
-            PoolProcesos(num_trabajadores,monitor)
-        
-        elif trabajadores=="hebras":
-            monitor=MonitorHebras()
-            [monitor.counter.put("dummy") for _ in range(num_fragmentos)]
-            PoolHebras(num_trabajadores,monitor)
+        if modo=="concurrente":
+            # elegir entre "hebras" o "procesos":
+            trabajadores="hebras"
+            num_trabajadores=4
+            num_fragmentos=10
             
-        mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
-        patron=sys.argv[2]
-        
-        t1=time.time()
-        posiciones=mr.buscar(patron)
-        t2=time.time()
+            if trabajadores=="procesos":
+                monitor=MonitorProcesos()
+                [monitor.contador.put("dummy") for _ in range(num_fragmentos)]
+                PoolProcesos(num_trabajadores,monitor)
             
-        #imprimir resultados
-        for i in range(len(posiciones)):
-            logger.info(f"Encontrado {patron} en {posiciones[i]}: {mr.get_secuencia(posiciones[i],len(patron))}")
-        logger.info(f"El patrón aparece {len(posiciones)} veces.")
-        logger.info(f"Tiempo de buscar el patrón: {t2-t1} segundos.")
+            elif trabajadores=="hebras":
+                monitor=MonitorHebras()
+                [monitor.contador.put("dummy") for _ in range(num_fragmentos)]
+                PoolHebras(num_trabajadores,monitor)
+                
+            mr=MapReduce(sys.argv[1],monitor,num_fragmentos)
+            patron=sys.argv[2]
+            
+            t1=time.time()
+            posiciones=mr.buscar(patron)
+            t2=time.time()
+                
+            #imprimir resultados
+            for i in range(len(posiciones)):
+                logger.info(f"Encontrado {patron} en {posiciones[i]}: {mr.get_secuencia(posiciones[i],len(patron))}")
+            logger.info(f"El patrón aparece {len(posiciones)} veces.")
+            logger.info(f"Tiempo de buscar el patrón: {t2-t1} segundos.")
+        
+        
+        
+        
+        
+        elif modo=="secuencial":
+            buscador=leer_FASTA(sys.argv[1])
+            patron=sys.argv[2]
+            t1=time.time()
+            posiciones=buscador.buscar(patron)
+            t2=time.time()
+            
+            #imprimir resultados
+            for i in range(len(posiciones)):
+                logger.info(f"Encontrado {patron} en {posiciones[i]}: {buscador.get_secuencia(posiciones[i],len(patron))}")
+            logger.info(f"El patrón aparece {len(posiciones)} veces.")
+            logger.info(f"Tiempo de buscar el patrón: {t2-t1} segundos.")
         
         
         

@@ -12,42 +12,42 @@ class MonitorHebras:
     def __init__(self):
         self.busquedas_pendientes=queue.Queue()
         self.resultados_pendientes=queue.Queue()
-        self.counter=queue.Queue()
+        self.contador=queue.Queue()
     
     
     
-    #inicializar búsqueda
-    def obtener_busqueda(self):      
-        busqueda=self.busquedas_pendientes.get()
-        self.busquedas_pendientes.task_done()
-        self.counter.get()
-        self.counter.task_done()
+    #crear búsqueda
+    def activar_busqueda(self,busqueda):
+        self.busquedas_pendientes.put(busqueda)
         
-        logger.info(f"Búsqueda {busqueda.indice} solicitada.")
+        logger.info(f"Activación de búsqueda {busqueda.indice}.")
+        
+        
+         
+    def obtener_busqueda(self):      
+        busqueda=self.busquedas_pendientes.get(block=False)
+        self.busquedas_pendientes.task_done()
+        self.contador.get()
+        self.contador.task_done()
+        
+        logger.info(f"Búsqueda {busqueda.indice} obtenida.")
         return busqueda
     
     
  
-    #crear búsqueda
-    def activar_busqueda(self,busqueda):
-        logger.info(f"Creación de búsqueda {busqueda.indice}.")
-        
-        self.busquedas_pendientes.put(busqueda)
-        
-        
-        
+    def notificar_resultado(self,resultado,id_hebra):
+        self.resultados_pendientes.put(resultado)
+
+        logger.info(f"Hebra {id_hebra} ha notificado el resultado de búsqueda {resultado.indice}.")
+    
+    
+    
     def obtener_resultado(self):
         resultado_quitado=self.resultados_pendientes.get()
         self.resultados_pendientes.task_done()
         
-        logger.info(f"Resultado de búsqueda {resultado_quitado.indice} obtenido.")
+        logger.info(f"Se ha obtenido el resultado de búsqueda {resultado_quitado.indice}.")
         return resultado_quitado
         
         
         
-    def notificar_busqueda(self,resultado,id_hebra):
-        self.resultados_pendientes.put(resultado)
-
-        logger.info(f"Finalización de búsqueda {resultado.indice} por hebra {id_hebra}.")
-    
-    

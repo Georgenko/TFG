@@ -12,10 +12,10 @@ logger=logging.getLogger()
 
 class MapReduce:
     def __init__(self,filename,monitor,num_fragmentos):
-        aux=leer_FASTA(filename)
+        buscador=leer_FASTA(filename)
         #quitar primera línea del fichero FASTA
-        self.contenido=aux[0]
-        self.bytes_validos=aux[1]
+        self.contenido=buscador.contenido
+        self.bytes_validos=buscador.bytes_validos
         self.monitor=monitor
         self.num_fragmentos=num_fragmentos
         

@@ -1,8 +1,10 @@
 #encoding:utf-8
 
 import sys
+from buscador import Buscador
 
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 logger=logging.getLogger()
 
@@ -42,4 +44,4 @@ def leer_FASTA(filename):
 
 
 
-    return (contenido,bytes_read)
+    return Buscador(contenido,bytes_read)

@@ -1,6 +1,7 @@
 #encoding:utf-8
 
 import threading
+import queue
 from buscador import Buscador
 from resultado import Resultado
 
@@ -20,15 +21,18 @@ class Hebra(threading.Thread):
         
         
     def run(self):
-        while not self.monitor.counter.empty():
-            busqueda=self.monitor.obtener_busqueda()
+        while not self.monitor.contador.empty():
+            try:
+                busqueda=self.monitor.obtener_busqueda()
+            except queue.Empty:
+                continue
             logger.info(f"Hebra {self.id_hebra} ha obtenido búsqueda {busqueda.indice}.")
             
             buscador=Buscador(busqueda.contenido,len(busqueda.contenido))
             lista=buscador.buscar(busqueda.patron)
             
             resultado=Resultado(lista,busqueda.indice)
-            self.monitor.notificar_busqueda(resultado,self.id_hebra)
+            self.monitor.notificar_resultado(resultado,self.id_hebra)   
             
             
-        
+            
