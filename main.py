@@ -36,7 +36,7 @@ def main():
             if trabajadores=="procesos":
                 monitor=MonitorProcesos()
                 [monitor.contador.put("dummy") for _ in range(num_fragmentos)]
-                pool=PoolProcesos(num_trabajadores,monitor)
+                pool_procesos=PoolProcesos(num_trabajadores,monitor)
             
             elif trabajadores=="hebras":
                 monitor=MonitorHebras()
@@ -57,10 +57,10 @@ def main():
             logger.info(f"Tiempo de buscar el patrón: {t2-t1} segundos.")
             
             if trabajadores=="procesos":
-                [p.join() for p in pool.procesos]
-                # [logger.info(f"{p}") for p in pool.procesos]
-                [p.close() for p in pool.procesos]
-                # [logger.info(f"{p}") for p in pool.procesos]
+                [p.join() for p in pool_procesos.procesos]
+                # [logger.info(p) for p in pool_procesos.procesos]
+                [p.close() for p in pool_procesos.procesos]
+                # [logger.info(p) for p in pool_procesos.procesos]
                 
         
         
