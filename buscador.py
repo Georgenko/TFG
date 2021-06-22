@@ -15,7 +15,7 @@ class Buscador:
 
     def comparar(self,patron,posicion):
         for i in range(len(patron)):
-            if patron[i]!=self.contenido[posicion+i] and patron[i]!="N".encode()[0]:
+            if (patron[i]!=self.contenido[posicion+i]) and (patron[i]!="N".encode()[0]):
                 return False
         return True
 

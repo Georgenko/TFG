@@ -2,13 +2,18 @@
 
 import threading
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger=logging.getLogger()
 
 
-"""def funcion(a):
+
+def funcion(a):
     print(f"estoy en una hebra aparte: {a}")
 x=threading.Thread(target=funcion,args=(1,))
 x.start()
-print("estoy en la hebra principal")"""
+print("estoy en la hebra principal")
 
 
 

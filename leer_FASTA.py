@@ -10,7 +10,6 @@ logger=logging.getLogger()
 
 
 
-#quitar primera línea del fichero
 def leer_FASTA(filename):
 
     with open(filename) as f:
@@ -24,13 +23,11 @@ def leer_FASTA(filename):
             sys.exit()
         f.seek(0)
 
-
-
         contenido=bytearray()
         bytes_read=0
 
-        for l1 in f:                
-
+        for l1 in f:
+            
             l2=l1.rstrip("\n").upper()
             if not l2:
                 continue
@@ -38,10 +35,8 @@ def leer_FASTA(filename):
             l3=l2.encode()
             
             for b in l3:
+                
                 contenido.append(b)
-
             bytes_read+=len_line
-
-
 
     return Buscador(contenido,bytes_read)

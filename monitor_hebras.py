@@ -13,6 +13,7 @@ class MonitorHebras:
         self.busquedas_pendientes=queue.Queue()
         self.resultados_pendientes=queue.Queue()
         self.contador=queue.Queue()
+        
     
     
     
